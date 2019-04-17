@@ -13,13 +13,14 @@ CLUSTER=$3
 echo "Setting up Jenkins in project ${GUID}-jenkins from Git Repo ${REPO} for Cluster ${CLUSTER}"
 
 # Set up Jenkins with sufficient resources
-oc new-app jenkins-persistent -n gsc-jenkins
+oc new-app jenkins-persistent -p ENABLE_OAUTH=true -p MEMORY_LIMIT=4Gi -n gsc-jenkins
 
 # Create custom agent container image with skopeo
-# TBD
+oc new-build -D $"FROM maven\nUSER root\nCMD ['yum', 'install', '-y', 'skopeo']\nUSER 1001"
+
 
 # Create pipeline build config pointing to the ${REPO} with contextDir `openshift-tasks`
-# TBD
+
 
 # Make sure that Jenkins is fully up and running before proceeding!
 while : ; do
