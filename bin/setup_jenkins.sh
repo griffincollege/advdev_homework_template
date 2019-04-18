@@ -16,7 +16,7 @@ echo "Setting up Jenkins in project ${GUID}-jenkins from Git Repo ${REPO} for Cl
 oc new-app jenkins-persistent -p ENABLE_OAUTH=true -p MEMORY_LIMIT=4Gi -n gsc-jenkins
 
 # Create custom agent container image with skopeo
-oc new-build -D $'FROM jenkins-agent-maven-35-centos7:v3.11\nUSER root\nCMD ["yum", "install", "-y", "skopeo"]\nUSER 1001'
+oc new-build -D $'FROM docker.io/openshift/jenkins-agent-maven-35-centos7:v3.11\nUSER root\nCMD ["yum", "install", "-y", "skopeo"]\nUSER 1001'
 
 
 # Create pipeline build config pointing to the ${REPO} with contextDir `openshift-tasks`
